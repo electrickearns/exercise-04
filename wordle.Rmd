@@ -10,6 +10,7 @@ output: html_document
 Load in Modules and data
 
 ```
+{r}
 collins <- read.table("https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/collins-scrabble-words-2019.txt", header=TRUE)
 google <- read.table("https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/google-10000-english-usa-no-swears.txt", header=TRUE)
 ```
@@ -19,6 +20,7 @@ google <- read.table("https://raw.githubusercontent.com/difiore/ada-2024-dataset
 Creating a function called load_dictionary() that takes a single argument, "filename", that can be used to read in either of the two data files just downloaded. 
 
 ```
+{r}
 load_dictionary <- function(fileurl) {
       read.table(fileurl, header=TRUE)
 }
@@ -27,6 +29,33 @@ load_dictionary <- function(fileurl) {
 Use function to create solution_list and valid_list 
 
 ```
+{r}
 valid_list <- load_dictionary("https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/collins-scrabble-words-2019.txt")
 solution_list <- load_dictionary("https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/google-10000-english-usa-no-swears.txt")
 ```
+Then just a quick test of the lists to confirm they worked:
+```
+{r}
+str(valid_list)
+str(solution_list)
+```
+
+## STEP TWO
+
+Filtering the solution_list to only include words in the valid_list. At first I tried using just the intersect function with solution_list and valid_list, but it returned a vector with no variables. I tried trouble shooting online, and eventually sound a forum that suggested using inner_join instead since my lists are data frames rather than vectors. 
+
+```
+{r}
+d <- inner_join (solution_list, valid_list)
+```
+
+## STEP THREE
+This function does a few things: removes solutions from d that are not 5 letters in length, then chooses a word, then splits it into a vector of single-character elements
+
+```
+{r}
+pick_solution <- function(list) {
+      read.table(fileurl, header=TRUE)
+}
+```
+

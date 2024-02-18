@@ -360,7 +360,8 @@ display: none;
 <div id="preliminaries" class="section level2">
 <h2>PRELIMINARIES</h2>
 <p>Load in Modules and data</p>
-<pre><code>collins &lt;- read.table(&quot;https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/collins-scrabble-words-2019.txt&quot;, header=TRUE)
+<pre><code>{r}
+collins &lt;- read.table(&quot;https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/collins-scrabble-words-2019.txt&quot;, header=TRUE)
 google &lt;- read.table(&quot;https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/google-10000-english-usa-no-swears.txt&quot;, header=TRUE)</code></pre>
 </div>
 <div id="step-one" class="section level2">
@@ -368,12 +369,39 @@ google &lt;- read.table(&quot;https://raw.githubusercontent.com/difiore/ada-2024
 <p>Creating a function called load_dictionary() that takes a single
 argument, “filename”, that can be used to read in either of the two data
 files just downloaded.</p>
-<pre><code>load_dictionary &lt;- function(fileurl) {
+<pre><code>{r}
+load_dictionary &lt;- function(fileurl) {
       read.table(fileurl, header=TRUE)
 }</code></pre>
 <p>Use function to create solution_list and valid_list</p>
-<pre><code>valid_list &lt;- load_dictionary(&quot;https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/collins-scrabble-words-2019.txt&quot;)
+<pre><code>{r}
+valid_list &lt;- load_dictionary(&quot;https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/collins-scrabble-words-2019.txt&quot;)
 solution_list &lt;- load_dictionary(&quot;https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/google-10000-english-usa-no-swears.txt&quot;)</code></pre>
+<p>Then just a quick test of the lists to confirm they worked:</p>
+<pre><code>{r}
+str(valid_list)
+str(solution_list)</code></pre>
+</div>
+<div id="step-two" class="section level2">
+<h2>STEP TWO</h2>
+<p>Filtering the solution_list to only include words in the valid_list.
+At first I tried using just the intersect function with solution_list
+and valid_list, but it returned a vector with no variables. I tried
+trouble shooting online, and eventually sound a forum that suggested
+using inner_join instead since my lists are data frames rather than
+vectors.</p>
+<pre><code>{r}
+d &lt;- inner_join (solution_list, valid_list)</code></pre>
+</div>
+<div id="step-three" class="section level2">
+<h2>STEP THREE</h2>
+<p>This function does a few things: removes solutions from d that are
+not 5 letters in length, then chooses a word, then splits it into a
+vector of single-character elements</p>
+<pre><code>{r}
+pick_solution &lt;- function(list) {
+      read.table(fileurl, header=TRUE)
+}</code></pre>
 </div>
 
 
