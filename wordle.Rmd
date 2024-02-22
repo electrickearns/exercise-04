@@ -42,11 +42,11 @@ str(solution_list)
 
 ## STEP TWO
 
-Filtering the solution_list to only include words in the valid_list. At first I tried using just the intersect function with solution_list and valid_list, but it returned a vector with no variables. I tried trouble shooting online, and eventually sound a forum that suggested using inner_join instead since my lists are data frames rather than vectors. 
+Filtering the solution_list to only include words in the valid_list using inner_join. 
 
 ```
 {r}
-d <- inner_join (solution_list, valid_list)
+solution_list <- inner_join (solution_list, valid_list)
 ```
 
 ## STEP THREE
@@ -55,7 +55,15 @@ This function does a few things: removes solutions from d that are not 5 letters
 ```
 {r}
 pick_solution <- function(list) {
-      read.table(fileurl, header=TRUE)
+      possible_answers <- filter (list, nchar(list$words) == 5)
+      answer <- sample (possible_answers, 1, replace = FALSE) 
+      answer_split <- strsplit (answer, " ") [[1]]
 }
 ```
 
+Now we run the function to see if it works:
+
+```
+{r}
+solution <- pick_solution(solution_list)
+```
