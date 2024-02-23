@@ -69,64 +69,71 @@ solution <- pick_solution (solution_list)
 
 ## STEP FOUR
 
-Time to actually play! I did have to use some help from online for this function, but did the bulk myself. Primarily, I needed help with the evaluate part of the function. I am not entirely sure how the wordlength and rep() part of the evaluate function works.  
-
-This function is used in the main game to evaluate guesses. I needed to use the wordle function online to find out how to do the yellow section especially. I added the rep() part of the function as a result, but I'm not sure it's necessary! 
+Time to actually play! I did have to use some help from online for this function, but did the bulk myself. 
 
 ```
 {r}
 evaluate_guess <- function (guess_vec, solution) {
   word_length <- length(solution)
-guess_res <- rep("-", word_length)
-  
-  for (i in 1:word_length) {
-    if (guess_vec[i] == solution[i]) {
-    guess_res[i] <- "G"
-    solution[i] <- "-" 
+  guess_res <- rep("-", word_length)
+
+for (i in 1:word_length) {
+  if (guess_vec[i] == solution[i]) {
+    guess_res[i] <- "G" }
+  else {
+  guess_res[i] <- "-"
+  }
+}
+
+for (i in 1:word_length) {
+  if (guess_res[i] !="G") {
+    idx <- match(guess_vec[i], solution)
+  if (!is.na(idx)) {
+    guess_res [i] <- "Y"
+    solution [idx] <- "-"
     }
   }
-  for (i in 1:word_length) {
-    if (guess_res[i] !="G") {
-      idx <- match(guess_vec[i], solution)
-      if (!is.na(idx)) {
-      guess_res [i] <- "Y"
-      solution [idx] <- "-"
-      }
-    }
-  }
-  guess_res
+}
+return(guess_res)
 }
 ```
 
-This is the main function used to play wordle that uses the above function # finish this
+This is the main function used to play wordle that uses the above function to evaluate. 
 
 ```
 {r}
 play_wordle <- function(solution, valid_list, num_guesses=6){
-    print(paste("You have", num_guesses, "chances to guess a word of 5 letters"))
-    guesses <- 0
-    letters_rem <- LETTERS
-    
-    while (guesses < num_guesses) {
-        print(paste(c("Letters remaining:", letters_rem)))
-        guesses <- guesses + 1
-        guess <-readline ("Enter guess of 5 letters:")
-        }
-        
-        guess <- toupper(guess)
-        guess_vec <- strsplit (guess,"") [[1]]
-    
-    guess_res <- evaluate_guess(guess_vec, solution)
-    
-    letters_rem <- setdiff(letters_rem, guess_vec)
-    
-    print(paste(strsplit(guess,"")[[1]]))
-    print(paste(guess_res))
-    if (app(guess_res == "G")) {
-    print ("You win!!")
-    return (guesses)
-    }
-    print(paste("Sorry, you lost! Answer was", solution))
-    return (guesses)
-      }
+  print(paste("You have", num_guesses, "chances to guess a word of 5 letters"))
+  guesses <- 0
+  letters_rem <- LETTERS
+
+while (guesses < num_guesses) {
+  print(paste(c("Letters remaining:", letters_rem)))
+  guesses <- guesses + 1
+  guess <-readline ("Enter guess of 5 letters:")
+
+guess <- toupper(guess)
+guess_vec <- strsplit (guess,"") [[1]]
+
+guess_res <- evaluate_guess(guess_vec, solution)
+
+letters_rem <- setdiff(letters_rem, guess_vec)
+
+print(paste(strsplit(guess,"")[[1]]))
+print(paste(guess_res))
+
+if (str_flatten(guess_res) == "GGGGG") {
+  print ("You win!!")
+  return (guesses)
+  }
+}
+
+print(paste("Sorry, you lost! Answer was", str_flatten(solution)))
+  return (guesses)
+}
 ```
+
+to play the game, copy this code into your r-studio console!
+```play_wordle (solution, valid_list)```
+
+Have fun!
