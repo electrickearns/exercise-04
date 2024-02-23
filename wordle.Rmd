@@ -40,13 +40,20 @@ str(valid_list)
 str(solution_list)
 ```
 
+Then I converted them to vectors for ease of work later
+```
+{r}
+solution_list <- solution_list$words
+valid_list <- valid_list$words
+```
+
 ## STEP TWO
 
-Filtering the solution_list to only include words in the valid_list using inner_join. 
+Filtering the solution_list to only include words in the valid_list using intersect. 
 
 ```
 {r}
-solution_list <- inner_join (solution_list, valid_list)
+solution_list <- intersect (solution_list, valid_list)
 ```
 
 ## STEP THREE
@@ -55,9 +62,9 @@ This function does a few things: removes solutions from d that are not 5 letters
 ```
 {r}
 pick_solution <- function(list) {
-      possible_answers <- filter (list, nchar(list$words) == 5)
+      possible_answers <- filter (list, nchar == 5)
       answer <- sample (possible_answers, 1, replace = FALSE) 
-      answer_split <- strsplit (answer, " ") [[1]]
+      answer_split <- strsplit (answer,"") [[1]]
 }
 ```
 
