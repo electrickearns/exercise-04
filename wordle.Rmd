@@ -61,8 +61,8 @@ This function does a few things: removes solutions from d that are not 5 letters
 
 ```
 {r}
-pick_solution <- function(list) {
-      possible_answers <- filter (list, nchar == 5)
+"pick_solution <- function(list) {
+      possible_answers <- filter (list, nchar (list) == 5)
       answer <- sample (possible_answers, 1, replace = FALSE) 
       answer_split <- strsplit (answer,"") [[1]]
 }
