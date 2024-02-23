@@ -381,17 +381,17 @@ solution_list &lt;- load_dictionary(&quot;https://raw.githubusercontent.com/difi
 <pre><code>{r}
 str(valid_list)
 str(solution_list)</code></pre>
+<p>Then I converted them to vectors for ease of work later</p>
+<pre><code>{r}
+solution_list &lt;- solution_list$words
+valid_list &lt;- valid_list$words</code></pre>
 </div>
 <div id="step-two" class="section level2">
 <h2>STEP TWO</h2>
-<p>Filtering the solution_list to only include words in the valid_list.
-At first I tried using just the intersect function with solution_list
-and valid_list, but it returned a vector with no variables. I tried
-trouble shooting online, and eventually sound a forum that suggested
-using inner_join instead since my lists are data frames rather than
-vectors.</p>
+<p>Filtering the solution_list to only include words in the valid_list
+using intersect.</p>
 <pre><code>{r}
-d &lt;- inner_join (solution_list, valid_list)</code></pre>
+solution_list &lt;- intersect (solution_list, valid_list)</code></pre>
 </div>
 <div id="step-three" class="section level2">
 <h2>STEP THREE</h2>
@@ -400,8 +400,20 @@ not 5 letters in length, then chooses a word, then splits it into a
 vector of single-character elements</p>
 <pre><code>{r}
 pick_solution &lt;- function(list) {
-      read.table(fileurl, header=TRUE)
+      possible_answers &lt;- filter (list, nchar (list) == 5)
+      answers &lt;- sample (possible_answers, 1, replace = FALSE)
+      answer_split &lt;- strsplit (answers,&quot;&quot;) [[1]]
 }</code></pre>
+<p>This is mostly working.</p>
+<pre><code>{r}
+pick_solution2 &lt;- function(list) {
+      possible_answers &lt;- filter (list, nchar (list) == 5)
+      answers &lt;- sample(possible_answers, length(5), replace= FALSE)
+      answer_split &lt;- strsplit (answers,&quot;&quot;) [[1]]
+}</code></pre>
+<p>Now we run the function to see if it works:</p>
+<pre><code>{r}
+solution &lt;- pick_solution2(solution_list)</code></pre>
 </div>
 
 
